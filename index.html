@@ -5,25 +5,28 @@
 <title></title>
 <link rel="stylesheet" href="style.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
+    <script>
+        document.addEventListener("touchstart", function (event) {
+            // احفظ قيمة المؤشر الحالية
+            const originalCursor = event.target.style.cursor;
+        
+            // قم بتعيين المؤشر إلى context-menu أثناء اللمس
+            event.target.style.cursor = "context-menu";
+        
+            // بعد فترة قصيرة، أعد المؤشر إلى حالته الأصلية
+            setTimeout(() => {
+                event.target.style.cursor = originalCursor;
+            }, 500); // نصف ثانية كافية
+        });
+    </script>
 </head>
-<script>
-    document.addEventListener("touchstart", function (event) {
-        // احفظ قيمة المؤشر الحالية
-        const originalCursor = event.target.style.cursor;
-    
-        // قم بتعيين المؤشر إلى context-menu أثناء اللمس
-        event.target.style.cursor = "context-menu";
-    
-        // بعد فترة قصيرة، أعد المؤشر إلى حالته الأصلية
-        setTimeout(() => {
-            event.target.style.cursor = originalCursor;
-        }, 500); // نصف ثانية كافية
-    });
-</script>
 <body>
     <!-- <div class="menu-button">
         <div class="menu-button-div">
@@ -32,11 +35,33 @@
         </div>
     </div> -->
 
+    <div class="home-div">
+        <a href="" class="alx logo"><h2>EGB language</h2></a>
+        <div class="alx">
+            <button id="ccdf" class="toggle-button Wave-cloud" data-target="box3" title="Share text">
+                <i class="fas fa-code"></i>
+            </button>
+            <div class="godo">
+                <div id="box2" class="content-box">
+                    <span class="kel">إعدادات الصوت</span>
+                    <div style="display: grid;">
+                        <label class="Wave-cloud"><input type="radio" name="speed" id="normal-speed" checked>عادي</label>
+                        <label class="Wave-cloud"><input type="radio" name="speed" id="slow-speed">بطيئ</label>
+                        <label class="Wave-cloud"><input type="radio" name="speed" id="slower-speed">ابطأ</label>
+                    </div>
+                </div>
+                <button id="ccdf" class="toggle-button Wave-cloud" data-target="box2" title="Share text">
+                    <icon style="background-image: url(image/settings-outline.svg);opacity: .8;"></icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="wrapper">
             <div class="text-input">
                 <div class="source-text">
-                    <div class="char-counter">500</div>
+                    <div class="char-counter">0/500</div>
                     <textarea class="from-text" placeholder="Enter text" maxlength="500"></textarea>
                     <div class="source-controls">
                         <button class="clear-btn Wave-cloud" title="Clear">
@@ -85,11 +110,20 @@
             </div>
                 <div class="target-text">
                     <textarea class="to-text" placeholder="Translation" readonly></textarea>
-                    <div class="target-controls" style="justify-content: space-between;">
+                    <div class="target-controls tools-div" style="justify-content: space-between;">
                         <div class="target-controls-div">
-                            <button id="ccdf" class="share-btn Wave-cloud" title="Share text">
-                                <i class="fas fa-share"></i>
-                            </button>
+                            <div class="godo">
+                                <div id="box1" class="content-box">
+                                    <div class="alx">
+                                        <button class="alx share-btn twitter-btn Wave-cloud"><icon style="background-image: url(image/Logo-X.png);"></icon></button>
+                                        <button class="alx share-btn whatsapp-btn Wave-cloud"><icon style="background-image: url(image/Logo-W.jpg);"></icon></button>
+                                        <button class="alx share-btn email-btn Wave-cloud" style="box-shadow: 0 0 0 1px #dbdbdb inset;margin: 0;"><svg focusable="false" width="20" height="20" viewBox="0 0 24 24" class=" NMm5M"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-.8 2L12 10.8 4.8 6h14.4zM4 18V7.87l8 5.33 8-5.33V18H4z"></path></svg></button>
+                                    </div>
+                                </div>
+                                <button id="ccdf" class="share-btn toggle-button Wave-cloud" data-target="box1" title="Share text">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
                             <div class="divider"></div>
                             <button id="ccdf" class="search-btn Wave-cloud" title="Search google">
                                 <icon style="background-image: url(image/google-icon-logo-svgrepo-com.svg);"></icon>
@@ -106,7 +140,33 @@
                 </div>
             </div>
         </div>
-        <div class="maksimum">Batas karakter maksimum nakeuh 500 karakter .</div>
+        <div class="maksimum">Batas karakter maksimum nakeuh 500 karakter.</div>
+    </div>
+
+    <div class="div-onclick content-box" id="box3">
+        <div class="content-box-div">
+            <h2>إضافة قائمة الترجمة لموقعي</h2>
+            <div class="good">
+                <label for="">
+                    جزئ ال Head
+                    <textarea><script src="https://tybascript1234.github.io/Languag/embed.js"></script></textarea>
+                </label>
+                <label for="">
+                    جزئ ال Body
+                    <textarea><div id="target-container"></div></textarea>
+                </label>
+                <hr style="margin-top: 16px;">
+                <h3 style="margin-top: 5px;">المميزات</h3>
+                <div class="lang-div">
+                    <span>لا نوفر اللغة العبرية❌.</span>
+                    <span>عدد اللغات اكثر من 100 لغة.</span>
+                    <span>امكانية تعديل ال css ليتناسق مع موقعك.</span>
+                    <span>مع اعلام الدول لمظهر افضل.</span>
+                </div>
+            </div>
+            <br>
+            <h3>Free Palestine</h3>
+        </div>
     </div>
 
     <script src="countries.js"></script>
