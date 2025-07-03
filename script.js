@@ -12,7 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
         micBtn: document.querySelector(".mic-btn"),
         copyBtn: document.querySelector(".copy-btn"),
         speakBtn: document.querySelector(".speak-btn"),
-        searchBtn: document.querySelector(".search-btn")
+        searchBtn: document.querySelector(".search-btn"),
+        whatsappBtn: document.querySelector(".whatsapp-btn"),
+        twitterBtn: document.querySelector(".twitter-btn"),
+        emailBtn: document.querySelector(".email-btn"),
+        toolsDiv: document.querySelector(".tools-div"),
+        // إضافة عناصر التحكم في سرعة الصوت
+        speedControls: document.querySelector(".speed-controls"),
+        normalSpeedRadio: document.querySelector("#normal-speed"),
+        slowSpeedRadio: document.querySelector("#slow-speed"),
+        slowerSpeedRadio: document.querySelector("#slower-speed")
     };
 
     // التحقق من وجود العناصر الأساسية
@@ -29,13 +38,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // تعيين المتغيرات للاستخدام في بقية الكود
     const {
         fromText, toText, exchangeIcon, fromLangBtn, toLangBtn,
-        fromLangOptions, toLangOptions, clearBtn, micBtn, copyBtn, speakBtn, searchBtn
+        fromLangOptions, toLangOptions, clearBtn, micBtn, copyBtn, 
+        speakBtn, searchBtn, whatsappBtn, twitterBtn, emailBtn,
+        toolsDiv, speedControls, normalSpeedRadio, slowSpeedRadio, slowerSpeedRadio
     } = elements;
 
     let translateFrom = "en";
     let translateTo = "ar";
     let firstMicClick = true;
     let currentRecognition = null;
+
+    // إخفاء tools-div افتراضيًا
+    if (toolsDiv) {
+        toolsDiv.style.display = 'none';
+    }
+
+    // إخفاء عناصر التحكم في السرعة افتراضيًا
+    if (speedControls) {
+        speedControls.style.display = 'none';
+    }
 
     // ======== التعديلات الجديدة ======== //
 
@@ -162,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        const buttons = [micBtn, copyBtn, speakBtn];
+        const buttons = [micBtn, copyBtn, speakBtn, whatsappBtn, twitterBtn, emailBtn];
         buttons.forEach(btn => {
             if (btn) {
                 btn.style.minWidth = '50px';
@@ -505,6 +526,8 @@ document.addEventListener('DOMContentLoaded', function() {
         clearBtn.addEventListener('click', () => {
             fromText.value = '';
             toText.value = '';
+            if (toolsDiv) toolsDiv.style.display = 'none';
+            if (speedControls) speedControls.style.display = 'none';
         });
     }
 
@@ -547,17 +570,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // نطق النص المترجم
+    // نطق النص المترجم مع التحكم في السرعة
     if (speakBtn) {
         speakBtn.addEventListener('click', () => {
             if (!toText.value) return;
+            
+            // إظهار عناصر التحكم في السرعة عند النقر على زر التحدث
+            if (speedControls) {
+                speedControls.style.display = 'flex';
+            }
+            
             const utterance = new SpeechSynthesisUtterance(toText.value);
             utterance.lang = translateTo;
+            
+            // تحديد سرعة الصوت بناء على الاختيار
+            if (slowerSpeedRadio && slowerSpeedRadio.checked) {
+                utterance.rate = 0.1; // أبطأ
+            } else if (slowSpeedRadio && slowSpeedRadio.checked) {
+                utterance.rate = 0.50; // بطيء
+            } else {
+                utterance.rate = 1.0; // عادي (افتراضي)
+            }
             
             utterance.onerror = (event) => {
                 createToast("حدث خطأ أثناء محاولة النطق: " + event.error);
             };
             
+            // إيقاف أي كلام جاري قبل بدء الجديد
+            speechSynthesis.cancel();
             speechSynthesis.speak(utterance);
         });
     }
@@ -566,7 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchBtn) {
         searchBtn.addEventListener('click', () => {
             if (!toText.value.trim()) {
-                createToast("لا يوجد نص مترجم للبحث عنه", "warning");
+                createToast('لا يوجد نص مترجم للبحث عنه بـ Google', "warning");
                 return;
             }
             
@@ -576,21 +616,70 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // مشاركة عبر واتساب
+    if (whatsappBtn) {
+        whatsappBtn.addEventListener("click", () => {
+            if (!toText.value.trim()) {
+                createToast("لا يوجد نص مترجم للمشاركة", "warning");
+                return;
+            }
+            
+            const textToShare = encodeURIComponent(toText.value);
+            const url = `https://wa.me/?text=${textToShare}`;
+            window.open(url, '_blank');
+        });
+    }
+
+    // مشاركة عبر تويتر
+    if (twitterBtn) {
+        twitterBtn.addEventListener("click", () => {
+            if (!toText.value.trim()) {
+                createToast("لا يوجد نص مترجم للمشاركة", "warning");
+                return;
+            }
+            
+            const textToShare = encodeURIComponent(toText.value);
+            const url = `https://twitter.com/intent/tweet?text=${textToShare}`;
+            window.open(url, '_blank');
+        });
+    }
+
+    // مشاركة عبر البريد الإلكتروني
+    if (emailBtn) {
+        emailBtn.addEventListener("click", () => {
+            if (!toText.value.trim()) {
+                createToast("لا يوجد نص مترجم للمشاركة", "warning");
+                return;
+            }
+            
+            const subject = encodeURIComponent("النص المترجم");
+            const body = encodeURIComponent(toText.value);
+            const url = `mailto:?subject=${subject}&body=${body}`;
+            window.location.href = url;
+        });
+    }
+
     // الترجمة التلقائية
     fromText.addEventListener("input", () => {
         if (!fromText.value.trim()) {
             toText.value = "";
+            if (toolsDiv) toolsDiv.style.display = 'none';
+            if (speedControls) speedControls.style.display = 'none';
             return;
         }
         
         clearTimeout(fromText.timer);
-        fromText.timer = setTimeout(translateText, 500);
+        fromText.timer = setTimeout(translateText, 50);
     });
 
     // وظيفة الترجمة
     function translateText() {
         let text = fromText.value.trim();
-        if (!text) return;
+        if (!text) {
+            if (toolsDiv) toolsDiv.style.display = 'none';
+            if (speedControls) speedControls.style.display = 'none';
+            return;
+        }
         
         toText.setAttribute("placeholder", "Translating...");
         let apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${getShortLangCode(translateFrom)}|${getShortLangCode(translateTo)}`;
@@ -607,9 +696,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         });
                     }
+                    
+                    // إظهار tools-div عند وجود نص مترجم
+                    if (toolsDiv && toText.value.trim()) {
+                        toolsDiv.style.display = 'flex';
+                    } else if (toolsDiv) {
+                        toolsDiv.style.display = 'none';
+                    }
                 } else {
                     toText.value = "Translation failed";
                     createToast("فشل في الترجمة", "error");
+                    if (toolsDiv) toolsDiv.style.display = 'none';
+                    if (speedControls) speedControls.style.display = 'none';
                 }
                 toText.setAttribute("placeholder", "Translation");
             })
@@ -618,7 +716,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 toText.value = "Translation error";
                 toText.setAttribute("placeholder", "Translation");
                 createToast("خطأ في الترجمة: " + error.message, "error");
+                if (toolsDiv) toolsDiv.style.display = 'none';
+                if (speedControls) speedControls.style.display = 'none';
             });
+    }
+
+    // إضافة مستمع حدث لمراقبة تغييرات النص في toText
+    if (toText) {
+        toText.addEventListener('input', function() {
+            if (toolsDiv) {
+                toolsDiv.style.display = this.value.trim() ? 'flex' : 'none';
+            }
+            if (speedControls) {
+                speedControls.style.display = this.value.trim() ? 'flex' : 'none';
+            }
+        });
     }
 
     // تهيئة اللغات عند التحميل
