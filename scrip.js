@@ -51,3 +51,66 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const buttons = document.querySelectorAll(".toggle-button");
+  const boxes = document.querySelectorAll(".content-box");
+  let currentlyOpenBox = null;
+
+  // إعداد الـ CSS المطلوب للانتقالات (يمكن وضعه في CSS خارجي أيضاً)
+  boxes.forEach((box) => {
+    box.style.opacity = 0;
+    box.style.transition = "opacity 0.3s ease";
+    box.style.display = "none";
+  });
+
+  function fadeIn(element) {
+    element.style.display = "block";
+    // نحتاج لتأخير صغير ليتم تطبيق الـ transition على opacity
+    requestAnimationFrame(() => {
+      element.style.opacity = 1;
+    });
+  }
+
+  function fadeOut(element) {
+    element.style.opacity = 0;
+    // بعد انتهاء التلاشي نخفي العنصر نهائياً
+    setTimeout(() => {
+      element.style.display = "none";
+    }, 500); // نفس مدة الانتقال
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", function (event) {
+      event.stopPropagation();
+      const targetId = this.getAttribute("data-target");
+      const targetBox = document.getElementById(targetId);
+
+      if (currentlyOpenBox && currentlyOpenBox !== targetBox) {
+        fadeOut(currentlyOpenBox);
+      }
+
+      if (targetBox.style.display === "block") {
+        fadeOut(targetBox);
+        currentlyOpenBox = null;
+      } else {
+        fadeIn(targetBox);
+        currentlyOpenBox = targetBox;
+      }
+    });
+  });
+
+  document.addEventListener("click", function () {
+    if (currentlyOpenBox) {
+      fadeOut(currentlyOpenBox);
+      currentlyOpenBox = null;
+    }
+  });
+
+  boxes.forEach((box) => {
+    box.addEventListener("click", function (event) {
+      event.stopPropagation();
+    });
+  });
+});
