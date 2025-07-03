@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<link rel="stylesheet" href="style.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+</head>
+<script>
+    document.addEventListener("touchstart", function (event) {
+        // احفظ قيمة المؤشر الحالية
+        const originalCursor = event.target.style.cursor;
+    
+        // قم بتعيين المؤشر إلى context-menu أثناء اللمس
+        event.target.style.cursor = "context-menu";
+    
+        // بعد فترة قصيرة، أعد المؤشر إلى حالته الأصلية
+        setTimeout(() => {
+            event.target.style.cursor = originalCursor;
+        }, 500); // نصف ثانية كافية
+    });
+</script>
+<body>
+    <!-- <div class="menu-button">
+        <div class="menu-button-div">
+            <a class="Wave-cloud"><i class="fas fa-code"></i>Add a language list to your website</a>
+            <a class="Wave-cloud">Contact us</a>
+        </div>
+    </div> -->
+
+    <div class="container">
+        <div class="wrapper">
+            <div class="text-input">
+                <div class="source-text">
+                    <div class="char-counter">500</div>
+                    <textarea class="from-text" placeholder="Enter text" maxlength="500"></textarea>
+                    <div class="source-controls">
+                        <button class="clear-btn Wave-cloud" title="Clear">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="divider"></div>
+                        <button class="mic-btn Wave-cloud" title="Voice input">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="language-selectors">
+                <div class="lang-selector">
+                    <button class="lang-btn Wave-cloud" id="from-lang-btn">
+                        <span class="lang-code">EN</span>
+                        <span class="lang-name">English</span>
+                    </button>
+                    <div class="lang-options" id="from-lang-options">
+                        <div class="lang-search-container">
+                            <input type="text" class="lang-search" placeholder="Search languages...">
+                            <button class="close-lang-options Wave-cloud"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class=" NMm5M hhikbc"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
+                        </div>
+                        <div class="lang-options-list"></div>
+                    </div>
+                </div>
+
+                <div class="swap-btn">
+                    <button class="exchange-icon Wave-cloud" title="Swap languages">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                </div>
+                
+                <div class="lang-selector">
+                    <button class="lang-btn Wave-cloud" id="to-lang-btn">
+                        <span class="lang-code">AR</span>
+                        <span class="lang-name">Arabic</span>
+                    </button>
+                    <div class="lang-options" id="to-lang-options">
+                        <div class="lang-search-container">
+                            <input type="text" class="lang-search" placeholder="Search languages...">
+                            <button class="close-lang-options Wave-cloud"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class=" NMm5M hhikbc"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
+                        </div>
+                        <div class="lang-options-list"></div>
+                    </div>
+                </div>
+            </div>
+                <div class="target-text">
+                    <textarea class="to-text" placeholder="Translation" readonly></textarea>
+                    <div class="target-controls" style="justify-content: space-between;">
+                        <div class="target-controls-div">
+                            <button id="ccdf" class="share-btn Wave-cloud" title="Share text">
+                                <i class="fas fa-share"></i>
+                            </button>
+                            <div class="divider"></div>
+                            <button id="ccdf" class="search-btn Wave-cloud" title="Search google">
+                                <icon style="background-image: url(image/google-icon-logo-svgrepo-com.svg);"></icon>
+                            </button>
+                            <div class="divider"></div>
+                            <button class="copy-btn Wave-cloud" title="Copy text">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <button class="speak-btn Wave-cloud" title="Listen">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="maksimum">Batas karakter maksimum nakeuh 500 karakter .</div>
+    </div>
+
+    <script src="countries.js"></script>
+    <script src="script.js"></script>
+    <script src="scrip.js"></script>
+    </body>
+</html>
