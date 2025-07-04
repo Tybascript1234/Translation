@@ -686,6 +686,7 @@ body .target-text {
 .lang-div {
   display: block;
   margin-top: 5px;
+  margin-right: 5px;
   box-shadow: -1px 0px 0px #36bd98 inset;
 }
 .lang-div span {
@@ -719,6 +720,10 @@ body .target-text {
 /* إذا كنت تريد أن يكون الزر مميزاً عند فتح القائمة */
 .lang-selector.active #from-lang-btn {
   background-color: #f1f3f4;
+}
+
+#goode {
+  display: grid;
 }
 
 
@@ -795,5 +800,18 @@ body .target-text {
       left: auto;
       margin: 0 16px;
       transform: none;
+    }
+    body #goode {
+      position: relative;
+      opacity: .3;
+    }
+    #goode::before {
+      position: absolute;
+      z-index: 5;
+      content: '';
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
     }
 }
