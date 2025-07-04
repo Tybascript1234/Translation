@@ -49,6 +49,40 @@ document.addEventListener('DOMContentLoaded', function() {
     let firstMicClick = true;
     let currentRecognition = null;
 
+    // ======== التعديل الجديد: عداد الأحرف =========
+
+    // إنشاء ديف العداد إذا لم يكن موجوداً
+    let charCounterDiv = document.querySelector('.char-counter');
+    if (!charCounterDiv) {
+        charCounterDiv = document.createElement('div');
+        charCounterDiv.className = 'char-counter';
+        charCounterDiv.dir = "ltr";
+        charCounterDiv.style.textAlign = "right";
+        charCounterDiv.style.fontSize = "14px";
+        charCounterDiv.style.color = "#888";
+        charCounterDiv.style.marginTop = "4px";
+        charCounterDiv.innerHTML = '<span id="charCount">0</span>/500';
+        if (fromText && fromText.parentNode) {
+            fromText.parentNode.insertBefore(charCounterDiv, fromText.nextSibling);
+        }
+    }
+    const charCountSpan = charCounterDiv.querySelector('#charCount');
+    const maxChars = 500;
+
+    function updateCharCount() {
+        let len = fromText.value.length;
+        charCountSpan.textContent = len;
+        if (len > maxChars) {
+            charCountSpan.style.color = 'red';
+        } else {
+            charCountSpan.style.color = '#888';
+        }
+    }
+    fromText.addEventListener('input', updateCharCount);
+    updateCharCount();
+
+    // =============================================
+
     // إخفاء tools-div افتراضيًا
     if (toolsDiv) {
         toolsDiv.style.display = 'none';
@@ -282,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const transcript = event.results[0][0].transcript;
             fromText.value = transcript;
             translateText();
+            updateCharCount();
             createToast("تم التعرف على الصوت بنجاح", "success");
         };
 
@@ -474,6 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSelectedLang(toLangBtn, toLangOptions?.querySelector('.lang-options-list'), translateTo, getShortLangCode(translateTo));
             
             if (fromText.value.trim()) translateText();
+            updateCharCount();
         });
     }
 
@@ -541,6 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toText.value = '';
             if (toolsDiv) toolsDiv.style.display = 'none';
             if (speedControls) speedControls.style.display = 'none';
+            updateCharCount();
         });
     }
 
@@ -678,6 +715,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toText.value = "";
             if (toolsDiv) toolsDiv.style.display = 'none';
             if (speedControls) speedControls.style.display = 'none';
+            updateCharCount();
             return;
         }
         
@@ -691,6 +729,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!text) {
             if (toolsDiv) toolsDiv.style.display = 'none';
             if (speedControls) speedControls.style.display = 'none';
+            updateCharCount();
             return;
         }
         
