@@ -40,7 +40,7 @@ input {
 }
 
 .logo {
-  margin-left: 13px;
+  margin-left: 10px;
   opacity: .7;
   user-select: none;
   cursor: pointer;
@@ -258,8 +258,8 @@ body .target-text {
   background: none;
   border: none;
   font-size: 16px;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -610,7 +610,7 @@ body .target-text {
   bottom: 50px;
   padding: 8px;
   margin: 5px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   display: none;
 }
 #box1 button {
@@ -702,6 +702,23 @@ body .target-text {
   height: 1px;
   width: 8px;
   background: #36bd98;
+}
+
+#from-lang-btn {
+  background-color: #f1f3f4;
+}
+
+#from-lang-btn::after {
+  background-image: url(image/as.png);
+  width: 16px;
+  height: 16px;
+  opacity: 1;
+  /* filter: hue-rotate(19deg); */
+}
+
+/* إذا كنت تريد أن يكون الزر مميزاً عند فتح القائمة */
+.lang-selector.active #from-lang-btn {
+  background-color: #f1f3f4;
 }
 
 
