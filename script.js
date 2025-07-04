@@ -43,8 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
         toolsDiv, speedControls, normalSpeedRadio, slowSpeedRadio, slowerSpeedRadio
     } = elements;
 
-    let translateFrom = "en";
-    let translateTo = "ar";
+    // تغيير اللغات الافتراضية هنا
+    let translateFrom = "ar-SA"; // العربية كلغة إدخال افتراضية
+    let translateTo = "en-GB";   // الإنجليزية كلغة خروج افتراضية
     let firstMicClick = true;
     let currentRecognition = null;
 
@@ -360,6 +361,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // إضافة وظيفة البحث
         setupLangSearch(fromLangOptions);
         setupLangSearch(toLangOptions);
+
+        // ترجمة أي نص موجود في حقل الإدخال عند التحميل
+        setTimeout(() => {
+            if (fromText.value.trim()) {
+                translateText();
+            }
+        }, 500);
     }
 
     // تحديث اللغة المحددة
