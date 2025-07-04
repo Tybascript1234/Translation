@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
         speedControls.style.display = 'none';
     }
 
+    // تعيين لون خلفية زر لغة الإدخال
+    if (fromLangBtn) {
+        fromLangBtn.style.backgroundColor = '#f1f3f4';
+    }
+
     // ======== التعديلات الجديدة ======== //
 
     // التحقق من اتصال HTTPS
