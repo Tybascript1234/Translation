@@ -24,6 +24,10 @@ body {
       display: flow-root;
 }
 
+br {
+  user-select: none;
+}
+
 hr {
   height: 1px;
   background: #4a546d30;
@@ -37,6 +41,47 @@ button {
 
 input {
   font-family: sans-serif;
+}
+
+body ::selection {
+  background-color: #ffc10723; /* لون الخلفية عند التحديد */
+  color: #000000; /* لون النص أثناء التحديد */
+}
+
+.Gode {
+  animation: Gode 0.3s;
+}
+
+@keyframes Gode {
+  from {
+    transform: translate(20px, -20px) scale(0.80);
+    box-shadow: none;
+  }
+  to {
+      
+  }
+}
+
+.Gode2 {
+  animation: Gode2 0.3s;
+}
+
+@keyframes Gode2 {
+  from {
+    transform: translate(-20px, 20px) scale(0.80);
+    box-shadow: none;
+  }
+  to {
+      
+  }
+}
+
+.arabic-font {
+  font-family: 'Amiri', 'Scheherazade New', serif !important;
+}
+
+.non-arabic-font {
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .logo {
@@ -118,11 +163,15 @@ body .alx {
   transition: all 0.2s ease;
   user-select: none;
   cursor: pointer;
+  width: -webkit-fill-available;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
     height: 40px;
+}
+#box2 label {
+  justify-content: right;
 }
 .home-div .content-box label:hover {
   background: #f1f3f4;
@@ -355,10 +404,10 @@ body .target-text {
   opacity: .8;
 }
 
-.lang-selector.active .lang-btn::after {
+/* .lang-selector.active .lang-btn::after {
     transform: rotate(180deg);
     opacity: .8;
-}
+} */
 
 .lang-options {
   position: absolute;
@@ -387,7 +436,7 @@ body .target-text {
   cursor: pointer;
   display: flex;
   align-items: center;
-  width: 263px;
+  width: 266px;
   gap: 10px;
   transition: background 0.2s ease;
 }
@@ -547,6 +596,7 @@ body .target-text {
 /* إبراز اللغة المحددة */
 .lang-option.selected {
   position: relative;
+  font-weight: 600;
   background-color: #e8f0fe;
   color: var(--primary-color);
 }
@@ -642,8 +692,8 @@ body .target-text {
   position: fixed;
   width: 400px;
   max-width: -webkit-fill-available;
+  padding-bottom: 31.4px;
   transition: all 0.3s ease;
-  height: 450px;
   box-shadow: 0px 4px 10px #00000029;
   top: 25px;
   background: white;
@@ -663,43 +713,48 @@ body .target-text {
   margin-bottom: 20px;
 }
 .good {
-  text-align: right;
+  text-align: left;
 }
 .good label {
   direction: rtl;
   display: grid;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   width: 100%;
+  font-size: 14px;
 }
 .good label textarea {
   white-space: nowrap;
   scrollbar-width: none;
-  margin-top: 5px;
+  margin-top: 0;
   width: -webkit-fill-available;
   resize: none;
   user-select: all;
-  padding: 9px 16px;
-  height: 40px;
-  outline-color: #36bd98;
+  padding: 7px 16px;
+  padding-left: 10px;
+  margin-right: 5px;
+  height: 30px;
+  outline: none;
+  border: none;
 }
 
 .lang-div {
   display: block;
   margin-top: 5px;
-  margin-right: 5px;
-  box-shadow: -1px 0px 0px #36bd98 inset;
+  margin-left: 5px;
+  box-shadow: 1px 0px 0px #36bd98 inset;
 }
 .lang-div span {
   position: relative;
-  direction: rtl;
-  margin-right: 14px;
+  margin-left: 14px;
   display: flex;
+  font-size: 14px;
   align-items: center;
+  line-height: 1.3;
 }
 .lang-div span::before {
   position: absolute;
   content: '';
-  right: -13px;
+  left: -13px;
   height: 1px;
   width: 8px;
   background: #36bd98;
@@ -724,6 +779,42 @@ body .target-text {
 
 #goode {
   display: grid;
+}
+
+.copy-button {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 25px;
+  overflow: hidden;
+  margin-top: 10px;
+  direction: ltr;
+  border: solid 1px #cccccc96;
+}
+.copy-button:hover {
+  border-color: #bbbbbb;
+}
+.copy-button:focus-within {
+  border-color: #bbbbbb;
+}
+.copy-button button {
+  cursor: pointer;
+  width: 80px;
+  padding: 0px;
+  height: 30px;
+  border-radius: 25px;
+  /* border-radius: 25px; */
+  border-color: #0000;
+  background: #36bd98;
+  /* background: #def1ff; */
+  color: #fff;
+  /* color: #065fd4;*/
+}
+.copy-button .ripple {
+  background: #ffffff48;
+}
+.xxx {
+  margin-left: 10px;
 }
 
 
