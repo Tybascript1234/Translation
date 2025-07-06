@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let ripple = null;
 
     const create = (e) => {
-      if (ripple) return;
+      // منع ظهور الموجة عند النقر بالزر الأيمن (button === 2)
+      if (ripple || (e.button !== undefined && e.button === 2)) return;
 
       const r = btn.getBoundingClientRect();
       const s = Math.max(r.width, r.height) * 0.5;
@@ -16,13 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
         clientY = e.touches[0].clientY;
       }
 
-      // تعديل هنا لجعل الموجة تبدأ من 80% من الارتفاع
-      const startFromTopPercentage = 0.8; // 80%
+      // تحديد ما إذا كان الزر يحتوي على كلاس mid-wave
+      const isMidWave = btn.classList.contains("mid-wave");
+
+      // إذا كان mid-wave، نجعل الموجة تبدأ من المنتصف
+      const startFromTopPercentage = isMidWave ? 0.5 : 0.8; // 50% للمنتصف، 80% للوضع العادي
+
       ripple = Object.assign(document.createElement("span"), {
         className: "ripple",
         style: `width:${s}px;height:${s}px;left:${
           clientX - r.left - s / 2
-        }px;top:${(clientY - r.top - s / 2) * startFromTopPercentage}px`,
+        }px;top:${clientY - r.top - s / 2}px;transform-origin: center ${
+          startFromTopPercentage * 100
+        }%`,
       });
 
       btn.appendChild(ripple);
@@ -58,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const boxes = document.querySelectorAll(".content-box");
   let currentlyOpenBox = null;
 
-  // إعداد الـ CSS المطلوب للانتقالات (يمكن وضعه في CSS خارجي أيضاً)
+  // إعداد الـ CSS المطلوب للانتقالات
   boxes.forEach((box) => {
     box.style.opacity = 0;
     box.style.transition = "opacity 0.3s ease";
@@ -67,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function fadeIn(element) {
     element.style.display = "block";
-    // نحتاج لتأخير صغير ليتم تطبيق الـ transition على opacity
     requestAnimationFrame(() => {
       element.style.opacity = 1;
     });
@@ -75,10 +81,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function fadeOut(element) {
     element.style.opacity = 0;
-    // بعد انتهاء التلاشي نخفي العنصر نهائياً
     setTimeout(() => {
       element.style.display = "none";
-    }, 500); // نفس مدة الانتقال
+    }, 300); // نفس مدة الانتقال
   }
 
   buttons.forEach((button) => {
@@ -101,16 +106,97 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.addEventListener("click", function () {
-    if (currentlyOpenBox) {
-      fadeOut(currentlyOpenBox);
-      currentlyOpenBox = null;
+  // إضافة event listener للنقر واللمس
+  function handleOutsideClick(event) {
+    if (currentlyOpenBox && !currentlyOpenBox.contains(event.target)) {
+      // تحقق أن النقر ليس على الزر نفسه
+      const isButton = Array.from(buttons).some(button => 
+        button === event.target || button.contains(event.target)
+      );
+      
+      if (!isButton) {
+        fadeOut(currentlyOpenBox);
+        currentlyOpenBox = null;
+      }
     }
-  });
+  }
+
+  // إضافة أحداث النقر واللمس
+  document.addEventListener("mousedown", handleOutsideClick);
+  document.addEventListener("touchstart", handleOutsideClick);
 
   boxes.forEach((box) => {
     box.addEventListener("click", function (event) {
       event.stopPropagation();
     });
+    box.addEventListener("touchstart", function (event) {
+      event.stopPropagation();
+    });
   });
 });
+
+
+
+
+function selectText(element) {
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function copyText(id) {
+  const element = document.getElementById(id);
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  document.execCommand("copy");
+
+  // إزالة التحديد بعد 1 ثانية
+  setTimeout(() => {
+    window.getSelection().removeAllRanges();
+  }, 1000);
+}
+
+
+
+
+function isArabic(text) {
+  return /[\u0600-\u06FF]/.test(text);
+}
+
+function applyFontBasedOnLanguage(el, text) {
+  if (isArabic(text)) {
+    el.classList.add("arabic-font");
+    el.classList.remove("non-arabic-font");
+  } else {
+    el.classList.add("non-arabic-font");
+    el.classList.remove("arabic-font");
+  }
+}
+
+function updateFontsForAllElements() {
+  const elements = document.querySelectorAll(
+    'p, div, span, h1, h2, h3, h4, h5, h6, label, a, button, input[type="text"], textarea'
+  );
+
+  elements.forEach((el) => {
+    let text = "";
+
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      text = el.value;
+      el.addEventListener("input", () => {
+        applyFontBasedOnLanguage(el, el.value);
+      });
+    } else {
+      text = el.textContent.trim();
+    }
+
+    applyFontBasedOnLanguage(el, text);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", updateFontsForAllElements);
