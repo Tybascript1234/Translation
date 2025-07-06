@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&family=Roboto&display=swap" rel="stylesheet">
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -36,13 +37,18 @@
     </div> -->
 
     <div class="home-div">
-        <a href="" class="alx logo"><h2>EGB language</h2></a>
+        <a href="" class="alx logo"><h2>EGB translate</h2></a>
         <div class="alx">
             <button id="ccdf" class="toggle-button Wave-cloud" data-target="box3" title="EGB language API">
                 <i class="fas fa-code"></i>
             </button>
             <div class="godo">
-                <div id="box2" class="content-box">
+                <div id="box2" class="content-box Gode">
+                    <label class="toggle-button Wave-cloud" data-target="box4">الصوت</label>
+                    <label class="toggle-button Wave-cloud" data-target="box5">اللغة</label>
+                </div>
+                <!-- --- -->
+                <div id="box4" class="content-box Gode">
                     <span class="kel">إعدادات الصوت</span>
                     <div style="display: grid;">
                         <label class="Wave-cloud"><input type="radio" name="speed" id="normal-speed" checked>عادي</label>
@@ -50,6 +56,13 @@
                             <label class="Wave-cloud"><input type="radio" name="speed" id="slow-speed">بطيئ</label>
                             <label class="Wave-cloud"><input type="radio" name="speed" id="slower-speed">ابطأ</label>
                         </div>
+                    </div>
+                </div>
+                <!-- --- -->
+                <div id="box5" class="content-box Gode">
+                    <span class="kel">إعدادات اللغة</span>
+                    <div style="display: grid;">
+                        
                     </div>
                 </div>
                 <button id="ccdf" class="toggle-button Wave-cloud" data-target="box2" title="Settings">
@@ -115,11 +128,11 @@
                     <div class="target-controls tools-div" style="justify-content: space-between;">
                         <div class="target-controls-div">
                             <div class="godo">
-                                <div id="box1" class="content-box">
+                                <div id="box1" class="content-box Gode2">
                                     <div class="alx">
-                                        <button class="alx share-btn twitter-btn Wave-cloud"><icon style="background-image: url(image/Logo-X.png);"></icon></button>
-                                        <button class="alx share-btn whatsapp-btn Wave-cloud"><icon style="background-image: url(image/Logo-W.jpg);"></icon></button>
-                                        <button class="alx share-btn email-btn Wave-cloud" style="box-shadow: 0 0 0 1px #dbdbdb inset;margin: 0;"><svg focusable="false" width="20" height="20" viewBox="0 0 24 24" class=" NMm5M"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-.8 2L12 10.8 4.8 6h14.4zM4 18V7.87l8 5.33 8-5.33V18H4z"></path></svg></button>
+                                        <button class="alx share-btn twitter-btn Wave-cloud" title="Twitter"><icon style="background-image: url(image/Logo-X.png);"></icon></button>
+                                        <button class="alx share-btn whatsapp-btn Wave-cloud" title="WhatsApp"><icon style="background-image: url(image/Logo-W.jpg);"></icon></button>
+                                        <button class="alx share-btn email-btn Wave-cloud" title="Email" style="box-shadow: 0 0 0 1px #dbdbdb inset;margin: 0;"><svg focusable="false" width="20" height="20" viewBox="0 0 24 24" class=" NMm5M"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-.8 2L12 10.8 4.8 6h14.4zM4 18V7.87l8 5.33 8-5.33V18H4z"></path></svg></button>
                                     </div>
                                 </div>
                                 <button id="ccdf" class="share-btn toggle-button Wave-cloud" data-target="box1" title="Share text">
@@ -147,23 +160,29 @@
 
     <div class="div-onclick content-box" id="box3">
         <div class="content-box-div">
-            <h2>إضافة قائمة الترجمة لموقعي</h2>
+            <h2>Add translation list to my site</h2>
             <div class="good">
                 <label for="">
-                    جزئ ال Head
-                    <textarea><script src="https://tybascript1234.github.io/Languag/embed.js"></script></textarea>
+                    <span class="xxx">Head part</span>
+                    <div class="copy-button">
+                        <textarea  onclick="selectText(this)" id="text1"><script src="https://tybascript1234.github.io/Languag/embed.js"></script></textarea>
+                        <button class="Wave-cloud" onclick="copyText('text1')">Copy</button>
+                    </div>
                 </label>
                 <label for="">
-                    جزئ ال Body
-                    <textarea><div id="target-container"></div></textarea>
+                    <span class="xxx">Body part</span>
+                    <div class="copy-button">
+                        <textarea onclick="selectText(this)" id="text2"><div id="target-container"></div></textarea>
+                        <button class="Wave-cloud" onclick="copyText('text2')">Copy</button>
+                    </div>
                 </label>
                 <hr style="margin-top: 16px;">
-                <h3 style="margin-top: 5px;">المميزات</h3>
+                <h3 style="margin-top: 5px;">Features</h3>
                 <div class="lang-div">
-                    <span>لا نوفر اللغة العبرية❌.</span>
-                    <span>عدد اللغات اكثر من 100 لغة.</span>
-                    <span>امكانية تعديل ال css ليتناسق مع موقعك.</span>
-                    <span>مع اعلام الدول لمظهر افضل.</span>
+                    <span>We do not provide Hebrew language❌.</span>
+                    <span>Number of languages: more than 100 languages.</span>
+                    <span>Ability to modify CSS to match your site.</span>
+                    <span>With country flags for a better look.</span>
                 </div>
             </div>
             <br>
