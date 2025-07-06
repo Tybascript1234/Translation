@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (len > maxChars) {
             charCountSpan.style.color = 'red';
         } else {
-            charCountSpan.style.color = '#888';
+            charCountSpan.style.color = '#000';
         }
     }
     fromText.addEventListener('input', updateCharCount);
@@ -443,6 +443,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const searchTerm = searchInput.value.toLowerCase();
             let hasResults = false;
             
+            // إزالة أي رسالة "لا توجد نتائج" موجودة مسبقًا
+            const existingNoResults = optionsList.querySelector('.no-results');
+            if (existingNoResults) {
+                existingNoResults.remove();
+            }
+            
             optionsList.querySelectorAll('.lang-option').forEach(option => {
                 const langName = option.querySelector('.lang-name')?.textContent.toLowerCase();
                 const langCode = option.querySelector('.lang-code')?.textContent.toLowerCase();
@@ -455,16 +461,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            if (!hasResults) {
+            // إضافة رسالة "لا توجد نتائج" فقط إذا لم تكن هناك نتائج ولم تكن الرسالة موجودة بالفعل
+            if (!hasResults && !optionsList.querySelector('.no-results')) {
                 const noResults = document.createElement('div');
                 noResults.className = 'no-results';
                 noResults.textContent = 'No languages found';
                 optionsList.appendChild(noResults);
-            } else {
-                const existingNoResults = optionsList.querySelector('.no-results');
-                if (existingNoResults) {
-                    existingNoResults.remove();
-                }
             }
         });
         
@@ -621,36 +623,69 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // نطق النص المترجم مع التحكم في السرعة
-    if (speakBtn) {
-        speakBtn.addEventListener('click', () => {
-            if (!toText.value) return;
-            
-            // إظهار عناصر التحكم في السرعة عند النقر على زر التحدث
-            if (speedControls) {
-                speedControls.style.display = 'flex';
-            }
-            
-            const utterance = new SpeechSynthesisUtterance(toText.value);
-            utterance.lang = translateTo;
-            
-            // تحديد سرعة الصوت بناء على الاختيار
-            if (slowerSpeedRadio && slowerSpeedRadio.checked) {
-                utterance.rate = 0.1; // أبطأ
-            } else if (slowSpeedRadio && slowSpeedRadio.checked) {
-                utterance.rate = 0.50; // بطيء
-            } else {
-                utterance.rate = 1.0; // عادي (افتراضي)
-            }
-            
-            utterance.onerror = (event) => {
-                createToast("حدث خطأ أثناء محاولة النطق: " + event.error);
-            };
-            
-            // إيقاف أي كلام جاري قبل بدء الجديد
+// نطق النص المترجم مع التحكم في السرعة
+// نطق النص المترجم مع التحكم في السرعة
+if (speakBtn) {
+    let isSpeaking = false;
+    let currentUtterance = null;
+    
+    speakBtn.addEventListener('click', () => {
+        if (!toText.value) return;
+        
+        // إظهار عناصر التحكم في السرعة عند النقر على زر التحدث
+        if (speedControls) {
+            speedControls.style.display = 'flex';
+        }
+        
+        if (isSpeaking) {
+            // إذا كان الكلام جارياً، قم بإيقافه
             speechSynthesis.cancel();
-            speechSynthesis.speak(utterance);
-        });
-    }
+            speakBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            isSpeaking = false;
+            currentUtterance = null;
+            return;
+        }
+        
+        // إذا لم يكن الكلام جارياً، ابدأ التحدث
+        currentUtterance = new SpeechSynthesisUtterance(toText.value);
+        currentUtterance.lang = translateTo;
+        
+        // تحديد سرعة الصوت بناء على الاختيار
+        if (slowerSpeedRadio && slowerSpeedRadio.checked) {
+            currentUtterance.rate = 0.1; // أبطأ
+        } else if (slowSpeedRadio && slowSpeedRadio.checked) {
+            currentUtterance.rate = 0.50; // بطيء
+        } else {
+            currentUtterance.rate = 1.0; // عادي (افتراضي)
+        }
+        
+        // تغيير الأيقونة أثناء التحدث
+        speakBtn.innerHTML = '<i class="fas fa-stop"></i>';
+        isSpeaking = true;
+        
+        currentUtterance.onend = () => {
+            if (isSpeaking) { // فقط إذا كان الكلام لم يتم إيقافه يدوياً
+                speakBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                isSpeaking = false;
+                currentUtterance = null;
+            }
+        };
+        
+        currentUtterance.onerror = (event) => {
+            // تجاهل خطأ "interrupted" الناتج عن الإيقاف اليدوي
+            if (event.error !== 'interrupted') {
+                createToast("حدث خطأ أثناء محاولة النطق: " + event.error);
+            }
+            speakBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            isSpeaking = false;
+            currentUtterance = null;
+        };
+        
+        // إيقاف أي كلام جاري قبل بدء الجديد
+        speechSynthesis.cancel();
+        speechSynthesis.speak(currentUtterance);
+    });
+}
 
     // البحث في جوجل بالنص المترجم
     if (searchBtn) {
