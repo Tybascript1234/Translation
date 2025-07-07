@@ -226,8 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const buttons = [micBtn, copyBtn, speakBtn, whatsappBtn, twitterBtn, emailBtn];
         buttons.forEach(btn => {
             if (btn) {
-                btn.style.minWidth = '50px';
-                btn.style.minHeight = '50px';
+                // btn.style.minWidth = '50px';
+                // btn.style.minHeight = '50px';
             }
         });
     }
