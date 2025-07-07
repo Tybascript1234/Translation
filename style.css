@@ -44,8 +44,9 @@ input {
 }
 
 body ::selection {
-  background-color: #ffc10723; /* لون الخلفية عند التحديد */
-  color: #000000; /* لون النص أثناء التحديد */
+  background-color: #66a1ff;
+  color: #ffffff;
+  padding: 3px;
 }
 
 .Gode {
@@ -69,6 +70,20 @@ body ::selection {
 @keyframes Gode2 {
   from {
     transform: translate(-20px, 20px) scale(0.80);
+    box-shadow: none;
+  }
+  to {
+      
+  }
+}
+
+.Gode3 {
+  animation: Gode3 0.3s;
+}
+
+@keyframes Gode3 {
+  from {
+    margin-top: -30px;
     box-shadow: none;
   }
   to {
@@ -144,11 +159,12 @@ body .alx {
   font-weight: 600;
   padding: 0 15px;
   font-size: 16px;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
+  display: block;
 }
 .home-div .content-box {
   font-family: system-ui;
-  text-align: right;
+  text-align: left;
   font-size: 14px;
   color: #5f6368;
   top: 44px;
@@ -161,6 +177,7 @@ body .alx {
 }
 .home-div .content-box label {
   transition: all 0.2s ease;
+  direction: rtl;
   user-select: none;
   cursor: pointer;
   width: -webkit-fill-available;
@@ -171,7 +188,7 @@ body .alx {
     height: 40px;
 }
 #box2 label {
-  justify-content: right;
+  justify-content: left;
 }
 .home-div .content-box label:hover {
   background: #f1f3f4;
@@ -179,6 +196,7 @@ body .alx {
 .home-div .content-box label input {
     width: 18px;
     height: 18px;
+    transition: all 0.3s ease;
 }
 
 .menu-button {
@@ -432,6 +450,7 @@ body .target-text {
 }
 
 .lang-option {
+  user-select: none;
   padding: 10px 16px;
   cursor: pointer;
   display: flex;
@@ -478,6 +497,7 @@ body .target-text {
 .toast {
   position: fixed;
   bottom: 40px;
+  font-size: 14px;
   left: 50%;
   transform: translateX(-50%);
   padding: 12px 24px;
@@ -552,7 +572,7 @@ body .target-text {
   align-items: center;
 }
 
-.lang-search {
+.lang-search234 {
   width: 100%;
   padding: 18px 15px;
   padding-right: 57px;
@@ -562,7 +582,7 @@ body .target-text {
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2);
 }
 
-.close-lang-options {
+body .lang-options .close-lang-options {
   position: absolute;
   right: 4px;
   background: none;
@@ -636,6 +656,7 @@ body .target-text {
   user-select: none;
   bottom: 0;
   left: 0;
+  display: flex;
   margin: 10px 16px;
   opacity: .5;
 }
@@ -730,7 +751,8 @@ body .target-text {
   resize: none;
   user-select: all;
   padding: 7px 16px;
-  padding-left: 10px;
+  padding-left: 0;
+  margin-left: 10px;
   margin-right: 5px;
   height: 30px;
   outline: none;
@@ -817,6 +839,19 @@ body .target-text {
   margin-left: 10px;
 }
 
+.home-div .content-box .links-Translate-div {
+  width: 200px;
+  box-shadow: none;
+  padding-bottom: 0;
+  border-radius: 3px;
+}
+body #translation_buttons {
+  max-height: 250px;
+}
+
+#box5 {
+  box-shadow: 0px 2px 7px #00000046, 0px 1px 1px #0000004f;
+}
 
 
 
@@ -904,5 +939,8 @@ body .target-text {
       height: 100%;
       left: 0;
       top: 0;
+    }
+    body .char-counter {
+      /* font-size: 14px; */
     }
 }
