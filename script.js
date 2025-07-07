@@ -341,69 +341,70 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // إنشاء خيارات اللغات مع إضافة البحث
-    function createLangOptions() {
-        if (!fromLangOptions || !toLangOptions) return;
+// إنشاء خيارات اللغات مع إضافة البحث
+function createLangOptions() {
+    if (!fromLangOptions || !toLangOptions) return;
+    
+    const fromOptionsList = fromLangOptions.querySelector('.lang-options-list');
+    const toOptionsList = toLangOptions.querySelector('.lang-options-list');
+    if (!fromOptionsList || !toOptionsList) return;
+    
+    fromOptionsList.innerHTML = '';
+    toOptionsList.innerHTML = '';
+    
+    for (let country_code in countries) {
+        const shortCode = getShortLangCode(country_code);
+        const isFromSelected = country_code === translateFrom;
+        const isToSelected = country_code === translateTo;
         
-        const fromOptionsList = fromLangOptions.querySelector('.lang-options-list');
-        const toOptionsList = toLangOptions.querySelector('.lang-options-list');
-        if (!fromOptionsList || !toOptionsList) return;
+        // خيارات اللغة المصدر
+        const fromOption = document.createElement('div');
+        fromOption.className = `lang-option Wave-cloud ${isFromSelected ? 'selected' : ''}`;
+        fromOption.innerHTML = `
+            <span class="lang-code">${shortCode.toUpperCase()}</span>
+            <span class="lang-name">${countries[country_code]}</span>
+        `;
+        fromOption.dataset.lang = country_code;
+        fromOption.addEventListener('click', () => {
+            translateFrom = country_code;
+            updateSelectedLang(fromLangBtn, fromOptionsList, country_code, shortCode);
+            fromLangOptions.classList.remove('show');
+            if (fromText.value.trim()) translateText();
+        });
+        fromOptionsList.appendChild(fromOption);
         
-        fromOptionsList.innerHTML = '';
-        toOptionsList.innerHTML = '';
-        
-        for (let country_code in countries) {
-            const shortCode = getShortLangCode(country_code);
-            const isFromSelected = country_code === translateFrom;
-            const isToSelected = country_code === translateTo;
-            
-            // خيارات اللغة المصدر
-            const fromOption = document.createElement('div');
-            fromOption.className = `lang-option ${isFromSelected ? 'selected' : ''}`;
-            fromOption.innerHTML = `
-                <span class="lang-code">${shortCode.toUpperCase()}</span>
-                <span class="lang-name">${countries[country_code]}</span>
-            `;
-            fromOption.dataset.lang = country_code;
-            fromOption.addEventListener('click', () => {
-                translateFrom = country_code;
-                updateSelectedLang(fromLangBtn, fromOptionsList, country_code, shortCode);
-                fromLangOptions.classList.remove('show');
-                if (fromText.value.trim()) translateText();
-            });
-            fromOptionsList.appendChild(fromOption);
-            
-            // خيارات اللغة الهدف
-            const toOption = document.createElement('div');
-            toOption.className = `lang-option ${isToSelected ? 'selected' : ''}`;
-            toOption.innerHTML = `
-                <span class="lang-code">${shortCode.toUpperCase()}</span>
-                <span class="lang-name">${countries[country_code]}</span>
-            `;
-            toOption.dataset.lang = country_code;
-            toOption.addEventListener('click', () => {
-                translateTo = country_code;
-                updateSelectedLang(toLangBtn, toOptionsList, country_code, shortCode);
-                toLangOptions.classList.remove('show');
-                if (fromText.value.trim()) translateText();
-            });
-            toOptionsList.appendChild(toOption);
-        }
-        
-        // تعيين اللغات الافتراضية
-        updateSelectedLang(fromLangBtn, fromOptionsList, translateFrom, getShortLangCode(translateFrom));
-        updateSelectedLang(toLangBtn, toOptionsList, translateTo, getShortLangCode(translateTo));
-        
-        // إضافة وظيفة البحث
-        setupLangSearch(fromLangOptions);
-        setupLangSearch(toLangOptions);
-
-        // ترجمة أي نص موجود في حقل الإدخال عند التحميل
-        setTimeout(() => {
-            if (fromText.value.trim()) {
-                translateText();
-            }
-        }, 500);
+        // خيارات اللغة الهدف
+        const toOption = document.createElement('div');
+        toOption.className = `lang-option Wave-cloud ${isToSelected ? 'selected' : ''}`;
+        toOption.innerHTML = `
+            <span class="lang-code">${shortCode.toUpperCase()}</span>
+            <span class="lang-name">${countries[country_code]}</span>
+        `;
+        toOption.dataset.lang = country_code;
+        toOption.addEventListener('click', () => {
+            translateTo = country_code;
+            updateSelectedLang(toLangBtn, toOptionsList, country_code, shortCode);
+            toLangOptions.classList.remove('show');
+            if (fromText.value.trim()) translateText();
+        });
+        toOptionsList.appendChild(toOption);
     }
+    
+    // تعيين اللغات الافتراضية
+    updateSelectedLang(fromLangBtn, fromOptionsList, translateFrom, getShortLangCode(translateFrom));
+    updateSelectedLang(toLangBtn, toOptionsList, translateTo, getShortLangCode(translateTo));
+    
+    // إضافة وظيفة البحث
+    setupLangSearch(fromLangOptions);
+    setupLangSearch(toLangOptions);
+
+    // ترجمة أي نص موجود في حقل الإدخال عند التحميل
+    setTimeout(() => {
+        if (fromText.value.trim()) {
+            translateText();
+        }
+    }, 500);
+}
 
     // تحديث اللغة المحددة
     function updateSelectedLang(btnElement, optionsList, countryCode, shortCode) {
@@ -433,21 +434,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupLangSearch(langOptions) {
         if (!langOptions) return;
         
-        const searchInput = langOptions.querySelector('.lang-search');
+        const searchInput = langOptions.querySelector('.lang-search234');
         const optionsList = langOptions.querySelector('.lang-options-list');
         const closeBtn = langOptions.querySelector('.close-lang-options');
         
-        if (!searchInput || !optionsList || !closeBtn) return;
+        if (!searchInput || !optionsList || !closeBtn) {
+            console.error('عناصر البحث غير موجودة');
+            return;
+        }
         
+        // حدث البحث
         searchInput.addEventListener('input', () => {
             const searchTerm = searchInput.value.toLowerCase();
             let hasResults = false;
-            
-            // إزالة أي رسالة "لا توجد نتائج" موجودة مسبقًا
-            const existingNoResults = optionsList.querySelector('.no-results');
-            if (existingNoResults) {
-                existingNoResults.remove();
-            }
             
             optionsList.querySelectorAll('.lang-option').forEach(option => {
                 const langName = option.querySelector('.lang-name')?.textContent.toLowerCase();
@@ -461,7 +460,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // إضافة رسالة "لا توجد نتائج" فقط إذا لم تكن هناك نتائج ولم تكن الرسالة موجودة بالفعل
             if (!hasResults && !optionsList.querySelector('.no-results')) {
                 const noResults = document.createElement('div');
                 noResults.className = 'no-results';
@@ -470,27 +468,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // زر الإغلاق
-        closeBtn.addEventListener('click', (e) => {
+        // حدث إغلاق القائمة
+        closeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             e.stopPropagation();
             langOptions.classList.remove('show');
-            searchInput.value = '';
-            optionsList.querySelectorAll('.lang-option').forEach(option => {
-                option.style.display = 'flex';
-            });
-            const noResults = optionsList.querySelector('.no-results');
-            if (noResults) noResults.remove();
-        });
-        
-        // مسح البحث عند إغلاق القائمة
-        langOptions.addEventListener('click', (e) => {
-            if (e.target === langOptions) {
+            
+            // إعادة تعيين البحث
+            if (searchInput) {
                 searchInput.value = '';
                 optionsList.querySelectorAll('.lang-option').forEach(option => {
                     option.style.display = 'flex';
                 });
                 const noResults = optionsList.querySelector('.no-results');
                 if (noResults) noResults.remove();
+            }
+        });
+        
+        // إغلاق عند النقر خارج القائمة
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-options') && !e.target.closest('.lang-btn')) {
+                langOptions.classList.remove('show');
+                if (searchInput) {
+                    searchInput.value = '';
+                    optionsList.querySelectorAll('.lang-option').forEach(option => {
+                        option.style.display = 'flex';
+                    });
+                    const noResults = optionsList.querySelector('.no-results');
+                    if (noResults) noResults.remove();
+                }
             }
         });
     }
