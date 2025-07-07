@@ -13,20 +13,7 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <script>
-        document.addEventListener("touchstart", function (event) {
-            // احفظ قيمة المؤشر الحالية
-            const originalCursor = event.target.style.cursor;
-        
-            // قم بتعيين المؤشر إلى context-menu أثناء اللمس
-            event.target.style.cursor = "context-menu";
-        
-            // بعد فترة قصيرة، أعد المؤشر إلى حالته الأصلية
-            setTimeout(() => {
-                event.target.style.cursor = originalCursor;
-            }, 500); // نصف ثانية كافية
-        });
-    </script>
+    <script src="https://tybascript1234.github.io/Languag/embed.js"></script>
 </head>
 <body>
     <!-- <div class="menu-button">
@@ -37,32 +24,31 @@
     </div> -->
 
     <div class="home-div">
-        <a href="" class="alx logo"><h2>EGB translate</h2></a>
+        <a href="" class="alx logo notranslate"><h2>EGB translate</h2></a>
         <div class="alx">
             <button id="ccdf" class="toggle-button Wave-cloud" data-target="box3" title="EGB language API">
                 <i class="fas fa-code"></i>
             </button>
             <div class="godo">
                 <div id="box2" class="content-box Gode">
-                    <label class="toggle-button Wave-cloud" data-target="box4">الصوت</label>
-                    <label class="toggle-button Wave-cloud" data-target="box5">اللغة</label>
+                    <label class="toggle-button Wave-cloud" data-target="box4">Sound</label>
+                    <label class="toggle-button Wave-cloud" data-target="box5">Language</label>
                 </div>
                 <!-- --- -->
                 <div id="box4" class="content-box Gode">
-                    <span class="kel">إعدادات الصوت</span>
+                    <span class="kel">Sound settings</span>
                     <div style="display: grid;">
-                        <label class="Wave-cloud"><input type="radio" name="speed" id="normal-speed" checked>عادي</label>
+                        <label class="Wave-cloud"><input type="radio" name="speed" id="normal-speed" checked>Normal</label>
                         <div id="goode">
-                            <label class="Wave-cloud"><input type="radio" name="speed" id="slow-speed">بطيئ</label>
-                            <label class="Wave-cloud"><input type="radio" name="speed" id="slower-speed">ابطأ</label>
+                            <label class="Wave-cloud"><input type="radio" name="speed" id="slow-speed">Slow</label>
+                            <label class="Wave-cloud"><input type="radio" name="speed" id="slower-speed">Slow down</label>
                         </div>
                     </div>
                 </div>
                 <!-- --- -->
-                <div id="box5" class="content-box Gode">
-                    <span class="kel">إعدادات اللغة</span>
+                <div id="box5" class="content-box Gode" style="border-radius: 16px;overflow: hidden;padding-top: 0;">
                     <div style="display: grid;">
-                        
+                        <div id="target-container"></div>
                     </div>
                 </div>
                 <button id="ccdf" class="toggle-button Wave-cloud" data-target="box2" title="Settings">
@@ -75,9 +61,9 @@
     <div class="container">
         <div class="wrapper">
             <div class="text-input">
-                <div class="source-text">
+                <div class="source-text notranslate">
                     <div class="char-counter"><span id="charCount">0</span>/500</div>
-                    <textarea class="from-text" placeholder="Enter text" maxlength="500"></textarea>
+                    <textarea class="from-text notranslate" placeholder="Enter text" maxlength="500"></textarea>
                     <div class="source-controls">
                         <button class="clear-btn Wave-cloud" title="Clear">
                             <i class="fas fa-times"></i>
@@ -89,14 +75,14 @@
                     </div>
                 </div>
                 <div class="language-selectors">
-                <div class="lang-selector">
+                <div class="lang-selector notranslate">
                     <button class="lang-btn Wave-cloud" id="from-lang-btn">
                         <span class="lang-code">EN</span>
                         <span class="lang-name">English</span>
                     </button>
                     <div class="lang-options" id="from-lang-options">
                         <div class="lang-search-container">
-                            <input type="text" class="lang-search" placeholder="Search languages...">
+                            <input type="text" class="lang-search234" placeholder="Search languages...">
                             <button class="close-lang-options Wave-cloud"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class=" NMm5M hhikbc"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
                         </div>
                         <div class="lang-options-list"></div>
@@ -109,22 +95,22 @@
                     </button>
                 </div>
                 
-                <div class="lang-selector">
+                <div class="lang-selector notranslate">
                     <button class="lang-btn Wave-cloud" id="to-lang-btn">
                         <span class="lang-code">AR</span>
                         <span class="lang-name">Arabic</span>
                     </button>
                     <div class="lang-options" id="to-lang-options">
                         <div class="lang-search-container">
-                            <input type="text" class="lang-search" placeholder="Search languages...">
+                            <input type="text" class="lang-search234" placeholder="Search languages...">
                             <button class="close-lang-options Wave-cloud"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class=" NMm5M hhikbc"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
                         </div>
                         <div class="lang-options-list"></div>
                     </div>
                 </div>
             </div>
-                <div class="target-text">
-                    <textarea class="to-text" placeholder="Translation" readonly></textarea>
+                <div class="target-text notranslate">
+                    <textarea class="to-text notranslate" placeholder="Translation" readonly></textarea>
                     <div class="target-controls tools-div" style="justify-content: space-between;">
                         <div class="target-controls-div">
                             <div class="godo">
@@ -155,21 +141,21 @@
                 </div>
             </div>
         </div>
-        <div class="maksimum">Batas karakter maksimum nakeuh 500 karakter.</div>
+        <div class="maksimum">Free Palestine</div>
     </div>
 
-    <div class="div-onclick content-box" id="box3">
+    <div class="div-onclick Gode3 content-box" id="box3">
         <div class="content-box-div">
             <h2>Add translation list to my site</h2>
             <div class="good">
-                <label for="">
+                <label>
                     <span class="xxx">Head part</span>
                     <div class="copy-button">
                         <textarea  onclick="selectText(this)" id="text1"><script src="https://tybascript1234.github.io/Languag/embed.js"></script></textarea>
                         <button class="Wave-cloud" onclick="copyText('text1')">Copy</button>
                     </div>
                 </label>
-                <label for="">
+                <label>
                     <span class="xxx">Body part</span>
                     <div class="copy-button">
                         <textarea onclick="selectText(this)" id="text2"><div id="target-container"></div></textarea>
@@ -193,5 +179,17 @@
     <script src="countries.js"></script>
     <script src="script.js"></script>
     <script src="scrip.js"></script>
+
+<script>
+document.addEventListener("touchstart", function () {
+  const elements = document.querySelectorAll("div, a, label, button, input, i, li");
+  elements.forEach(el => {
+    const computedCursor = window.getComputedStyle(el).cursor;
+    if (computedCursor === "pointer") {
+      el.style.setProperty("cursor", "context-menu", "important");
+    }
+  });
+}, { once: true }); // يتم تنفيذ الكود مرة واحدة فقط عند أول لمسة
+</script>
     </body>
 </html>
